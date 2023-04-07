@@ -1,0 +1,12 @@
+C:\Users\Usuário\Desktop\Stately\bin\Debug\net6.0\Stately.deps.json
+C:\Users\Usuário\Desktop\Stately\bin\Debug\net6.0\Stately.dll
+C:\Users\Usuário\Desktop\Stately\bin\Debug\net6.0\Stately.pdb
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.csproj.AssemblyReference.cache
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.AssemblyInfoInputs.cache
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.AssemblyInfo.cs
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.csproj.CoreCompileInputs.cache
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.dll
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\refint\Stately.dll
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\Stately.pdb
+C:\Users\Usuário\Desktop\Stately\obj\Debug\net6.0\ref\Stately.dll
