@@ -8,7 +8,7 @@ namespace Stately;
 /// </summary>
 public abstract class Watcher
 {
-    bool canUpdate = false;
+    bool canUpdate = true;
     bool needUpdate = false;
     object lockObj = new object();
 
