@@ -141,4 +141,7 @@ public class Property<T>
         prop.tryChange(obj);
         return prop;
     }
+
+    public static implicit operator T(Property<T> prop)
+        => prop.value;
 }
