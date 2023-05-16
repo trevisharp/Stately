@@ -45,7 +45,9 @@ public class Property<T>
 
     private void tryChange(object value)
     {
-        if (this.value.Equals(value))
+        var thisIsNull = this.value is null;
+        var valueIsNull = value is null;
+        if ((thisIsNull && valueIsNull) || (!thisIsNull && this.value.Equals(value)))
             return;
 
         if (value is T data)
