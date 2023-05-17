@@ -1,5 +1,5 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    06/04/2023
+ * Date:    15/05/2023
  */
 using System;
 using System.Reflection;
@@ -37,14 +37,36 @@ public abstract class State
 
     protected void init(Type type, object obj)
     {
+        object[] parameters = { this };
+        
         foreach (var prop in type.GetRuntimeProperties())
         {
             var propType = prop.PropertyType;
-            object[] parameters = { this };
+            if (!propType.IsGenericType)
+                continue;
+
+            if (propType.GetGenericTypeDefinition() != typeof(Property<>))
+                continue;
+
             var property = Activator.CreateInstance(
                 propType, parameters
             );
             prop.SetValue(obj, property);
+        }
+        
+        foreach (var field in type.GetRuntimeFields())
+        {
+            var fieldType = field.FieldType;
+            if (!fieldType.IsGenericType)
+                continue;
+            
+            if (fieldType.GetGenericTypeDefinition() != typeof(Property<>))
+                continue;
+
+            var property = Activator.CreateInstance(
+                fieldType, parameters
+            );
+            field.SetValue(obj, property);
         }
     }
 }
