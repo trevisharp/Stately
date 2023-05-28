@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <PackageId>StatelyLib</PackageId>
-    <TargetFramework>net6.0</TargetFramework>
-    <PackageVersion>1.2.0</PackageVersion>
+    <TargetFramework>net7.0</TargetFramework>
+    <PackageVersion>1.3.0</PackageVersion>
   </PropertyGroup>
 
 </Project>
