@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-namespace Stately;
+namespace Stately.Collections;
 
 public class StateList<T> : State, ICollection<T>
 {
