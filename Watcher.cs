@@ -53,6 +53,6 @@ public abstract class Watcher
     public void Unwatch(State state)
         => state.watchers.Remove(this);
 
-    internal void OnWatchUpdate()
+    public virtual void OnWatchUpdate()
         => needUpdate = true;
 }

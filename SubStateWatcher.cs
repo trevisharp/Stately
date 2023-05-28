@@ -13,6 +13,8 @@ public class SubStateWatcher : Watcher
     public SubStateWatcher(State mainState)
         => this.mainState = mainState;
 
-    protected override void interact()
+    protected override void interact() { }
+
+    public override void OnWatchUpdate()
         => mainState.OnChanged();
 }
