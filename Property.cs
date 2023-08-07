@@ -1,5 +1,5 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    16/05/2023
+ * Date:    07/08/2023
  */
 namespace Stately;
 
@@ -10,37 +10,19 @@ using Exceptions;
 /// </summary>
 public class Property<T>
 {
+    public T Value
+    {
+        get => this.value;
+        set => tryChange(value);
+    }
+
     private T value;
     private State state;
-    private Watcher watcher;
 
     public Property(State state)
     {
         this.state = state;
-        this.watcher = null;
         this.value = default(T);
-        this.watchSubState();
-    }
-
-    public override int GetHashCode()
-        => this.value?.GetHashCode() ?? 0;
-
-    public override string ToString()
-        => value?.ToString() ?? null;
-
-    private void watchSubState()
-    {
-        if (value is null)
-            return;
-
-        if (value is State state)
-        {
-            if (watcher is not null)
-                watcher = null;
-            
-            this.watcher = new SubStateWatcher(this.state);
-            this.watcher.Watch(state);
-        }
     }
 
     private void tryChange(object value)
@@ -53,13 +35,18 @@ public class Property<T>
         if (value is T data)
         {
             this.value = data;
-            this.watchSubState();
             this.state.OnChanged();
             return;
         }
         
         throw new InvalidPropertyDataTypeException();
     }
+
+    public override int GetHashCode()
+        => this.value?.GetHashCode() ?? 0;
+
+    public override string ToString()
+        => value?.ToString() ?? null;
     
     public override bool Equals(object obj)
     {
@@ -137,10 +124,10 @@ public class Property<T>
         dynamic div = value / dyn;
         return (T)div;
     }
-
-    public static Property<T> operator |(Property<T> prop, T obj)
+    
+    public static Property<T> operator <<(Property<T> prop, T obj)
     {
-        prop.tryChange(obj);
+        prop.Value = obj;
         return prop;
     }
 
