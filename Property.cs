@@ -8,7 +8,7 @@ using Exceptions;
 /// <summary>
 /// A Property to use in States. Property is a State.
 /// </summary>
-public class Property<T>
+public class Property<T> : State
 {
     public T Value
     {

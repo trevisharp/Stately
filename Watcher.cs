@@ -1,5 +1,5 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    07/08/2023
+ * Date:    06/04/2023
  */
 namespace Stately;
 
@@ -9,26 +9,31 @@ namespace Stately;
 public abstract class Watcher
 {
     bool canUpdate = true;
+    bool needUpdate = false;
     object lockObj = new object();
 
     /// <summary>
     /// Implements effetivines interaction with states.
     /// </summary>
-    protected abstract void act();
+    protected abstract void interact();
 
     /// <summary>
     /// Block watch system and interact with the objects waiting changes.
     /// </summary>
     public void Interact()
-    {   
+    {
+        if (!needUpdate)
+            return;
+        
         if (!canUpdate)
             return;
         
         lock (lockObj)
         {
             canUpdate = false;
+            needUpdate = false;
             
-            act();
+            interact();
 
             canUpdate = true;
         }
@@ -49,5 +54,5 @@ public abstract class Watcher
         => state.watchers.Remove(this);
 
     public virtual void OnWatchUpdate()
-        => Interact();
+        => needUpdate = true;
 }
