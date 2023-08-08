@@ -1,17 +1,23 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    28/05/2023
+ * Date:    08/08/2023
  */
 using System.Collections.Generic;
 using System.Collections;
 
 namespace Stately.Collections;
 
-public class StateList<T> : State, ICollection<T>
+/// <summary>
+/// A State List to model complex states. 
+/// </summary>
+public class StateList<T> : BaseProperty, ICollection<T>
 {
     private List<T> list = new List<T>();
 
     public int Count => list.Count;
     public bool IsReadOnly => false;
+
+    public StateList(State state)
+        => this.SetState(state);
 
     public void Add(T item)
     {
@@ -19,17 +25,17 @@ public class StateList<T> : State, ICollection<T>
 
         if (item is State state)
         {
-            SubStateWatcher watcher = new SubStateWatcher(this);
+            var watcher = this.CreateSubWatcher();
             watcher.Watch(state);
         }
 
-        this.OnChanged();
+        this.UpdateState();
     }
 
     public void Clear()
     {
         list.Clear();
-        this.OnChanged();
+        this.UpdateState();
     }
 
     public bool Contains(T item)
@@ -47,8 +53,8 @@ public class StateList<T> : State, ICollection<T>
 
         if (!removed)
             return false;
-
-        this.OnChanged();
+        
+        this.UpdateState();
         return true;
     }
 

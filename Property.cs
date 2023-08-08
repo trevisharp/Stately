@@ -1,5 +1,5 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    16/05/2023
+ * Date:    08/08/2023
  */
 namespace Stately;
 
@@ -8,25 +8,24 @@ using Exceptions;
 /// <summary>
 /// A Property to use in States. Property is a State.
 /// </summary>
-public class Property<T>
+public class Property<T> : BaseProperty
 {
     private T value;
-    private State state;
     private Watcher watcher;
+
+    public T Value
+    {
+        get => this.value;
+        set => this.tryChange(value);
+    }
 
     public Property(State state)
     {
-        this.state = state;
+        this.SetState(state);
         this.watcher = null;
         this.value = default(T);
         this.watchSubState();
     }
-
-    public override int GetHashCode()
-        => this.value?.GetHashCode() ?? 0;
-
-    public override string ToString()
-        => value?.ToString() ?? null;
 
     private void watchSubState()
     {
@@ -38,7 +37,7 @@ public class Property<T>
             if (watcher is not null)
                 watcher = null;
             
-            this.watcher = new SubStateWatcher(this.state);
+            this.watcher = this.CreateSubWatcher();
             this.watcher.Watch(state);
         }
     }
@@ -54,13 +53,19 @@ public class Property<T>
         {
             this.value = data;
             this.watchSubState();
-            this.state.OnChanged();
+            this.UpdateState();
             return;
         }
         
         throw new InvalidPropertyDataTypeException();
     }
     
+    public override int GetHashCode()
+        => this.value?.GetHashCode() ?? 0;
+
+    public override string ToString()
+        => value?.ToString() ?? null;
+
     public override bool Equals(object obj)
     {
         if (ReferenceEquals(this, obj))

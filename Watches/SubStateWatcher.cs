@@ -1,7 +1,7 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    06/04/2023
+ * Date:    08/08/2023
  */
-namespace Stately;
+namespace Stately.Watches;
 
 /// <summary>
 /// A Watcher used to a property can be watch a sub state.
@@ -10,11 +10,9 @@ public class SubStateWatcher : Watcher
 {
     private State mainState;
 
-    public SubStateWatcher(State mainState)
+    public SubStateWatcher(State mainState) : base(true)
         => this.mainState = mainState;
 
-    protected override void interact() { }
-
-    public override void OnWatchUpdate()
+    protected override void act()
         => mainState.OnChanged();
 }

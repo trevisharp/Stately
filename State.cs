@@ -1,5 +1,5 @@
 /* Author:  Leonardo Trevisan Silio
- * Date:    15/05/2023
+ * Date:    08/08/2023
  */
 using System;
 using System.Reflection;
@@ -37,20 +37,18 @@ public abstract class State
 
     protected void init(Type type, object obj)
     {
-        object[] parameters = { this };
-        
         foreach (var prop in type.GetRuntimeProperties())
         {
             var propType = prop.PropertyType;
             if (!propType.IsGenericType)
                 continue;
 
-            if (propType.GetGenericTypeDefinition() != typeof(Property<>))
+            bool isProp = propType.GetGenericTypeDefinition() == typeof(Property<>);
+            bool isBaseTypeProp = propType.BaseType.GetGenericTypeDefinition() == typeof(Property<>);
+            if (!isProp && !isBaseTypeProp)
                 continue;
-
-            var property = Activator.CreateInstance(
-                propType, parameters
-            );
+            
+            var property = createProperty(propType);
             prop.SetValue(obj, property);
         }
         
@@ -60,13 +58,22 @@ public abstract class State
             if (!fieldType.IsGenericType)
                 continue;
             
-            if (fieldType.GetGenericTypeDefinition() != typeof(Property<>))
+            bool isProp = fieldType.GetGenericTypeDefinition() == typeof(Property<>);
+            bool isBaseTypeProp = fieldType.BaseType.GetGenericTypeDefinition() == typeof(Property<>);
+            if (!isProp && !isBaseTypeProp)
                 continue;
-
-            var property = Activator.CreateInstance(
-                fieldType, parameters
-            );
+            
+            var property = createProperty(fieldType);
             field.SetValue(obj, property);
         }
+    }
+
+    private object createProperty(Type propertyType)
+    {
+        object[] parameters = { this };
+        var property = Activator.CreateInstance(
+            propertyType, parameters
+        );
+        return property;
     }
 }
